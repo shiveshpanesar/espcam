@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WebSocket Image Viewer</title>
+</head>
+
+<body>
+    <h1>WebSocket Image Viewer</h1>
+    <img id="image" src="" alt="ESP32-CAM Image" width="1550px" height="650px">
+
+    <script>
+        // Establish WebSocket connection
+        const ws = new WebSocket('ws://localhost:80');
+
+        ws.onopen = () => {
+            console.log('WebSocket connection opened');
+        };
+
+        ws.onmessage = event => {
+            // console.log('Message received:', event.data);
+
+            // Assuming the message is the base64 encoded image data
+            // const base64ImageData = event.data;
+            // console.log(event.data);
+            // rawImageData = event.data.split(" ");
+            // Convert raw image data to base64 string
+            // const base64ImageData = btoa(String.fromCharCode.apply(null, rawImageData));
+            const base64ImageData = event.data;
+            // Set the base64-encoded image data as the source of the image element
+            document.getElementById('image').src =  base64ImageData;
+
+        };
+
+        ws.onclose = () => {
+            console.log('WebSocket connection closed');
+        };
+
+        ws.onerror = error => {
+            console.error('WebSocket error:', error);
+        };
+    </script>
+</body>
+
+</html>
